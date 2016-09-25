@@ -1,0 +1,39 @@
+/*
+ * main.cpp game.cpp board.cpp level.cpp OnEvent.cpp OnLoop.cpp CEvent.cpp CSurface.cpp AI.cpp
+ *
+ * Programmer: Xinyue Lexie Zhang
+ * Date submitted: 05/12/2016
+ * Instructor: Dr. Cooper
+ * Course: CS246
+ * Assignment: finalProject
+ */
+
+Compilation Instruction:
+
+You may use 'make game' to compile the minesweeper game and 'make AI' to compile an AI solver. Use 'make' overall to compile both programs together. To run the game, simple run './minesweeper', or to run the AI display, run './AIminesweeper'. Currently when user run './AIminesweeper', the test cases results are displayed.
+
+Program Details:
+
+This program is a working version of the famous minesweeper game on unix system. User can start the game by clicking on the pre-compiled minesweeper executable or run ./minesweeper in terminal. Then user is asked to select a level of their choice, including Beginner, Intermediate and Expert. Then user can left click on the grids to open a cell or left click on the grids to flag a potential bomb. Once the user marked a bomb, he/she loses and the 'smiley face' is turned into a 'sad face'. An user can restart the game by right clicking the 'sad face' in the middle of the topbar. Also if a user marked all the cells expect those setted to bombs, he/she wins and the welcoming 'smiley face' turns into a 'cool face'.
+
+Note that given the nature of minesweeper game, it is possible ends up with an unknonwn solution, meaning that some cells can not deducted from the hints and log, but instead user may click based on probability or simply purely guessing.
+
+
+Program Structure:
+
+minesweeper game:
+
+I decided to use the Object Oriented Design in this project, so that the information will be encapsulated and the code structure, to me, is relatively clean.
+
+The main method is within the main.cpp file, which get user selection of game level and initialize a new game object, then it calls the OnExecute function in game.cpp and finally delete the game. All the level information are stored in the file named level.cpp.
+
+In game.cpp, the constructor set the program Running state to true, and based on the user selected level parameter, set up the corresponding level and initialize a new game board. Also it sets the user winState to NONE for winning checking.
+Then the OnExecute function first calls OnInit to init the board, then while the running state is true, it tries to PollEvent and calls OnLoop which keeps calling the checkWin method and finally based on the winState, render the board accordingly.
+
+In board.cpp, the constructor initialize all the SDL_Surfaces to NULL, set up the 2D array of Grid object and initialize some variables. The OnInit function basically init all the SDL_Surfaces and calls initBomb to randomly sets up corresponding number of bombs in the current game board.
+
+AI solver:
+
+I decided to take the challenge of writing an AI solver, which has been proved to be an NP-Complete problem. I start from the two brute force cases and figure out most part of another additional algorithm which I am still working on. Currently, the brute force AI part is working correctly though most of the time, it either marks the bomb during initialrandomMark function or during later randomMark when the two brute force cases don't apply.
+
+I also use conditional compilation and write a testBoard for my simple brute force AI algorithm. Currently, when user run with ./AIminesweeper, the test cases results are displayed.
